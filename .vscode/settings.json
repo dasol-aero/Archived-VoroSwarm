@@ -1,0 +1,90 @@
+{
+
+
+  "cmake.configureOnOpen": false,
+
+
+  "[plaintext]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[xml]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[yaml]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[cmake]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[cpp]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+  },
+
+
+  "editor.fontSize": 16,
+  "terminal.integrated.fontSize": 16,
+
+
+  "todo-tree.tree.autoRefresh": false,
+  "todo-tree.highlights.defaultHighlight": {
+    "type": "text-and-comment",
+  },
+  "todo-tree.highlights.customHighlight": {
+    "HERE": {
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "foreground": "#FFFF00",
+    },
+    "FIX": {
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "foreground": "#FF0000",
+    },
+    "TODO": {
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "foreground": "#00FFFF",
+    },
+    "NOTE": {
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "foreground": "#00FF00",
+    },
+  },
+  "todo-tree.general.tags": [
+    "HERE",
+    "FIX",
+    "TODO",
+    "NOTE",
+  ],
+  "files.associations": {
+    "hash_map": "cpp",
+    "hash_set": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "vector": "cpp",
+    "chrono": "cpp",
+    "any": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "bitset": "cpp",
+    "memory": "cpp",
+    "regex": "cpp"
+  },
+
+
+}
