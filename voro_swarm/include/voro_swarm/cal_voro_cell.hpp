@@ -11,6 +11,8 @@
 #include <Eigen/Eigen>
 #include <voro++/voro++.hh>
 
+#include "voro_swarm/voro_cell.hpp"
+
 
 namespace voro_swarm{
 
@@ -21,22 +23,22 @@ public:
 
   /* API */
   bool set_input_and_make_container(const std::vector<Eigen::Vector3d>& input_points,
-                                    const int&                          input_target_point_ind,
                                     const double&                       input_container_margin);
-
+  bool get_voro_cell(const int& point_ind, VoroCell& voro_cell);
 
   /* API: Helper */
   static std::vector<Eigen::Vector3d> get_random_input_points(const int& num_points);
 
 private:
 
-  /* input */
+  /* boolean */
   bool initialized_ = false;
+
+  /* input */  
   std::vector<Eigen::Vector3d> input_points_;
-  int                          input_target_point_ind_;
   double                       input_container_margin_;
 
-  /* voronoi cells container */
+  /* container */
   int    num_points_;
   double points_xmin_;
   double points_xmax_;
@@ -44,6 +46,12 @@ private:
   double points_ymax_;
   double points_zmin_;
   double points_zmax_;
+  double container_xmin_;
+  double container_xmax_;
+  double container_ymin_;
+  double container_ymax_;
+  double container_zmin_;
+  double container_zmax_;
   std::shared_ptr<voro::container> container_;
 
 };

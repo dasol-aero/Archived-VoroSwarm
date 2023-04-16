@@ -3,11 +3,17 @@
 
 int main(void){
 
-  int n = 100;
+  // FIX: test code
+  int n = 1;
   auto input_points = voro_swarm::CalVoroCell::get_random_input_points(n);
 
   voro_swarm::CalVoroCell cal_voro_cell;
-  cal_voro_cell.set_input_and_make_container(input_points, 0, 0.1);
+  voro_swarm::VoroCell voro_cell;
+  cal_voro_cell.set_input_and_make_container(input_points, 0.1);
+  cal_voro_cell.get_voro_cell(0, voro_cell);
+
+
+
 
 
   /* return */
