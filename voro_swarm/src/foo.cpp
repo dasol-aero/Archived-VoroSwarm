@@ -4,7 +4,7 @@
 int main(void){
 
   // FIX: test code
-  int n = 1;
+  int n = 5;
   auto input_points = voro_swarm::CalVoroCell::get_random_input_points(n);
 
   voro_swarm::CalVoroCell cal_voro_cell;

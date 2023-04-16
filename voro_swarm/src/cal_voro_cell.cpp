@@ -126,6 +126,26 @@ bool CalVoroCell::get_voro_cell(const int& point_ind, VoroCell& voro_cell){
   
 
 
+
+  // FIX: neighbors
+  // FIX: for test purpose, it is iterated for all voronoi cells, later only summarize info for the specific cell.
+  // FIX: add num_neighbors
+  std::cout << "----------" << std::endl;
+  for (int i = 0; i < num_points_; i++){
+    container_->compute_cell(vcn, 0, i);
+    std::vector<int> neighbors;
+    vcn.neighbors(neighbors);
+    std::printf("point ind: %d, neighboring point indices: ", i);
+    for (int ni : neighbors){
+      if (ni >= 0) { std::cout << ni << " "; }
+    }
+    std::cout << std::endl;
+  }
+
+
+
+
+
   /* return */
   return true;
 
