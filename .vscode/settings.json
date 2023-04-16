@@ -70,21 +70,6 @@
     "TODO",
     "NOTE",
   ],
-  "files.associations": {
-    "hash_map": "cpp",
-    "hash_set": "cpp",
-    "deque": "cpp",
-    "list": "cpp",
-    "string": "cpp",
-    "vector": "cpp",
-    "chrono": "cpp",
-    "any": "cpp",
-    "array": "cpp",
-    "*.tcc": "cpp",
-    "bitset": "cpp",
-    "memory": "cpp",
-    "regex": "cpp"
-  },
 
 
 }
