@@ -146,6 +146,13 @@ bool CalVoroCell::get_voro_cell(const int& point_ind, VoroCell& voro_cell){
 
 
 
+  // FIX: temporal
+  if (voro_cell.initialized_){}
+
+
+
+
+
   /* return */
   return true;
 

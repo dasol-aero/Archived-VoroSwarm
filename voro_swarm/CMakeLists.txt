@@ -31,6 +31,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 find_package(ament_cmake REQUIRED)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
 
@@ -46,17 +47,19 @@ include_directories(
 # ----------------------------------------------------------------------------------------------- #
 
 #
-# Target < foo >  # FIX: [LATER] clean up
-add_executable(foo
-  src/foo.cpp
+# Target < node_test_cal_voro_cell >
+add_executable(node_test_cal_voro_cell
+  src/test_cal_voro_cell/node_test_cal_voro_cell.cpp
   src/cal_voro_cell.cpp
+  src/voro_cell.cpp
 )
-target_link_libraries(foo
+target_link_libraries(node_test_cal_voro_cell
   Eigen3::Eigen
   voro++
 )
-ament_target_dependencies(foo
+ament_target_dependencies(node_test_cal_voro_cell
   rclcpp
+  geometry_msgs
   visualization_msgs
 )
 
@@ -66,17 +69,17 @@ ament_target_dependencies(foo
 
 #
 # Install Launch Files
-install(
-  DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}
-)
+# install(
+#   DIRECTORY launch
+#   DESTINATION share/${PROJECT_NAME}
+# )
 
 
 
 #
 # Install Nodes
 install(TARGETS
-  foo
+  node_test_cal_voro_cell
   DESTINATION lib/${PROJECT_NAME}
 )
 
