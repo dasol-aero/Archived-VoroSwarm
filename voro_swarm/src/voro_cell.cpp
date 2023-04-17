@@ -7,6 +7,7 @@ namespace voro_swarm{
 visualization_msgs::msg::Marker VoroCell::get_msg_marker_from_face(
   const Eigen::MatrixXd& face,
   const std::string&     frame_id,
+  const std::string&     ns,
   const int&             id,
   const double&          line_width,
   const double&          color_r,
@@ -23,14 +24,15 @@ visualization_msgs::msg::Marker VoroCell::get_msg_marker_from_face(
   if (!(face.cols() == 3)) { return mk; } // NOTE: return empty message
 
   /* packing */
-  // FIX: [LATER] header.stamp?
+  // TODO: header.stamp using std::chrono
   mk.header.frame_id    = frame_id;
+  mk.ns                 = ns;
   mk.id                 = id;
   mk.type               = visualization_msgs::msg::Marker::LINE_STRIP;
   mk.action             = visualization_msgs::msg::Marker::ADD;
   mk.pose.position.x    = 0;
   mk.pose.position.y    = 0;
-  mk.pose.position.z    = 0;  
+  mk.pose.position.z    = 0;
   mk.pose.orientation.w = 1;
   mk.pose.orientation.x = 0;
   mk.pose.orientation.y = 0;
@@ -42,7 +44,7 @@ visualization_msgs::msg::Marker VoroCell::get_msg_marker_from_face(
   mk.color.a            = color_a;
 
   /* points */
-  geometry_msgs::msg::Point pt;  
+  geometry_msgs::msg::Point pt;
   for (int i = 0; i < face.rows(); i++){
     pt.x = face(i, 0);
     pt.y = face(i, 1);
@@ -54,6 +56,14 @@ visualization_msgs::msg::Marker VoroCell::get_msg_marker_from_face(
   /* return */
   return mk;
 
+}
+
+
+visualization_msgs::msg::Marker VoroCell::get_msg_marker_for_reset(void){
+  visualization_msgs::msg::Marker mk;
+  mk.id     = std::numeric_limits<int32_t>::max();
+  mk.action = visualization_msgs::msg::Marker::DELETEALL;
+  return mk;
 }
 
 

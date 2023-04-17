@@ -43,15 +43,15 @@
     "type": "text-and-comment",
   },
   "todo-tree.highlights.customHighlight": {
-    "HERE": {
-      "fontWeight": "bold",
-      "fontStyle": "italic",
-      "foreground": "#FFFF00",
-    },
     "FIX": {
       "fontWeight": "bold",
       "fontStyle": "italic",
       "foreground": "#FF0000",
+    },
+    "HERE": {
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "foreground": "#FFFF00",
     },
     "TODO": {
       "fontWeight": "bold",
@@ -65,11 +65,16 @@
     },
   },
   "todo-tree.general.tags": [
-    "HERE",
     "FIX",
+    "HERE",
     "TODO",
     "NOTE",
   ],
+
+
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.autoSave": "onFocusChange",
 
 
 }

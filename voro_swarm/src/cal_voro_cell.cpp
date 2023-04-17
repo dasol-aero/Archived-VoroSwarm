@@ -23,7 +23,7 @@ bool CalVoroCell::set_input_and_make_container(const std::vector<Eigen::Vector3d
 
   /* voronoi cells container */
   num_points_ = input_points_.size();
-  for (int i = 0; i < num_points_; i++){    
+  for (int i = 0; i < num_points_; i++){
     if (i == 0){
       points_xmin_ = input_points_[i](0);
       points_xmax_ = input_points_[i](0);
@@ -45,7 +45,7 @@ bool CalVoroCell::set_input_and_make_container(const std::vector<Eigen::Vector3d
   container_ymin_ = points_ymin_ - input_container_margin_;
   container_ymax_ = points_ymax_ + input_container_margin_;
   container_zmin_ = points_zmin_ - input_container_margin_;
-  container_zmax_ = points_zmax_ + input_container_margin_;  
+  container_zmax_ = points_zmax_ + input_container_margin_;
   container_ = std::make_shared<voro::container>(
     container_xmin_,
     container_xmax_,
@@ -87,74 +87,86 @@ bool CalVoroCell::get_voro_cell(const int& point_ind, VoroCell& voro_cell){
   if (!(point_ind >= 0))          { return false; }
   if (!(point_ind < num_points_)) { return false; }
 
-  /* compute cell */
+  /* declaration */
   voro::voronoicell_neighbor vcn;
-  container_->compute_cell(vcn, 0, point_ind);
 
+  /* compute cell */
+  if(!container_->compute_cell(vcn, 0, point_ind)) { return false; }
 
+  /* cell: point */
+  voro_cell.point_ = input_points_[point_ind];
 
+  /* cell: vertex */
+  {
 
+    /* vertices */
+    std::vector<double> x;
+    vcn.vertices(voro_cell.point_(0), voro_cell.point_(1), voro_cell.point_(2), x);
 
-  // FIX: vertex
-  std::vector<double> x;
-  vcn.vertices(input_points_[point_ind](0), input_points_[point_ind](1), input_points_[point_ind](2), x);  
-  std::cout << "vertices" << std::endl;
-  for (int i = 0; i < (int)x.size(); i+= 3){
-    std::printf("%.4f  %.4f  %.4f\n", x[i], x[i + 1], x[i + 2]);
-  }
-  
-
-
-
-
-  // FIX: face
-  std::cout << "---" << std::endl;
-  std::cout << "# of vertices for each face" << std::endl;
-  std::vector<int> f1;
-  vcn.face_orders(f1);
-  for (int a : f1) { std::cout << a << std::endl; }
-  
-
-  std::cout << "---" << std::endl;
-  std::cout << "vertex indices for each face" << std::endl;
-  std::vector<int> f2;
-  vcn.face_vertices(f2);
-  for (int a : f2){
-    std::cout << a << std::endl;
-  }
-
-  
-
-
-
-  // FIX: neighbors
-  // FIX: for test purpose, it is iterated for all voronoi cells, later only summarize info for the specific cell.
-  // FIX: add num_neighbors
-  std::cout << "----------" << std::endl;
-  for (int i = 0; i < num_points_; i++){
-    container_->compute_cell(vcn, 0, i);
-    std::vector<int> neighbors;
-    vcn.neighbors(neighbors);
-    std::printf("point ind: %d, neighboring point indices: ", i);
-    for (int ni : neighbors){
-      if (ni >= 0) { std::cout << ni << " "; }
+    /* parsing */
+    voro_cell.num_vertex_ = x.size() / 3;
+    voro_cell.set_vertex_.clear();
+    voro_cell.set_vertex_.reserve(voro_cell.num_vertex_);
+    for (int i = 0; i < voro_cell.num_vertex_ * 3; i += 3){
+      voro_cell.set_vertex_.push_back(Eigen::Vector3d(x[i], x[i + 1], x[i + 2]));
     }
-    std::cout << std::endl;
+
+  }
+
+  /* cell: face */
+  {
+
+    /* faces */
+    std::vector<int> x;
+    vcn.face_vertices(x);
+
+    /* parsing: number of face */
+    voro_cell.num_face_ = vcn.number_of_faces();
+
+    /* parsing: set of face - clear and reserve */
+    voro_cell.set_face_.clear();
+    voro_cell.set_face_.reserve(voro_cell.num_face_);
+
+    /* parsing: set of face - push back */
+    int base = 0;
+    while (base < (int)x.size()){
+      int num = x[base]; // NOTE: number of vertices for this face
+      Eigen::MatrixXd face(num, 3); // NOTE: shape = N x 3
+      for (int i = base + 1; i < base + 1 + num; i++){
+        face.row(i - base - 1) = voro_cell.set_vertex_[x[i]].transpose(); // NOTE: column to row vector
+      }
+      voro_cell.set_face_.push_back(face);
+      base += 1 + num;
+    }
+
   }
 
 
 
 
 
-  // FIX: temporal
-  if (voro_cell.initialized_){}
+  // HERE: neighbor
+  // for test purpose, it is iterated for all voronoi cells, later only summarize info for the specific cell.
+  // add num_neighbors
+  // std::cout << "----------" << std::endl;
+  // for (int i = 0; i < num_points_; i++){
+  //   container_->compute_cell(vcn, 0, i);
+  //   std::vector<int> neighbors;
+  //   vcn.neighbors(neighbors);
+  //   std::printf("point ind: %d, neighboring point indices: ", i);
+  //   for (int ni : neighbors){
+  //     if (ni >= 0) { std::cout << ni << " "; }
+  //   }
+  //   std::cout << std::endl;
+  // }
 
 
 
 
 
   /* return */
-  return true;
+  voro_cell.initialized_ = true;
+  return voro_cell.initialized_;
 
 }
 
