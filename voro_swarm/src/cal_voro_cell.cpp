@@ -113,7 +113,7 @@ bool CalVoroCell::get_voro_cell(const int& point_ind, VoroCell& voro_cell){
 
   }
 
-  /* cell: face */
+  /* cell: faces */
   {
 
     /* faces */
@@ -141,28 +141,23 @@ bool CalVoroCell::get_voro_cell(const int& point_ind, VoroCell& voro_cell){
 
   }
 
+  /* cell: neighbors */
+  {
 
+    /* neighbors */
+    std::vector<int> xs;
+    vcn.neighbors(xs);
 
+    /* clear */
+    voro_cell.set_neighbor_.clear();
 
+    /* parsing */
+    for (int x : xs){
+      if (x >= 0) { voro_cell.set_neighbor_.push_back(input_points_[x]); }
+    }
+    voro_cell.num_neighbor_ = voro_cell.set_neighbor_.size();
 
-  // HERE: neighbor
-  // for test purpose, it is iterated for all voronoi cells, later only summarize info for the specific cell.
-  // add num_neighbors
-  // std::cout << "----------" << std::endl;
-  // for (int i = 0; i < num_points_; i++){
-  //   container_->compute_cell(vcn, 0, i);
-  //   std::vector<int> neighbors;
-  //   vcn.neighbors(neighbors);
-  //   std::printf("point ind: %d, neighboring point indices: ", i);
-  //   for (int ni : neighbors){
-  //     if (ni >= 0) { std::cout << ni << " "; }
-  //   }
-  //   std::cout << std::endl;
-  // }
-
-
-
-
+  }
 
   /* return */
   voro_cell.initialized_ = true;
